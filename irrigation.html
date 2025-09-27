@@ -6,11 +6,11 @@
   <title>أنظمة الري في الأردن</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="app/app.js" defer></script>
-  <script src="app/script.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="script.js" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="light-mode">
+<body class="light-mode" data-page="irrigation">
   <canvas id="bgCanvas"></canvas>
   <button id="modeToggle">🌙 الوضع الليلي</button>
   <div id="scrollProgress"></div>
@@ -76,7 +76,7 @@
       const isDark = document.body.classList.contains('dark-mode');
       const textColor = isDark ? '#fff' : '#333';
 
-      fetch('data/data.json')
+      fetch('data.json')
         .then(res => res.json())
         .then(data => {
           const ctx = document.getElementById('irrigationChart').getContext('2d');
@@ -105,7 +105,8 @@
               scales: {
                 y: {
                   beginAtZero: true,
-                  ticks: { color: textColor }
+                  ticks: { color: textColor },
+                  title: { display: true, text: 'النسبة %', color: textColor }
                 },
                 x: {
                   ticks: { color: textColor }
@@ -119,3 +120,4 @@
   </script>
 </body>
 </html>
+
