@@ -266,17 +266,4 @@ body.dark-mode th, body.dark-mode td {
   border-radius: 6px;
   overflow: hidden;
   height: 20px;
-  margin: 0.5rem 0;
-  position: relative;
-}
-.fill {
-  background-color: #81c784;
-  height: 100%;
-  width: 0;
-  transition: width 0.6s ease;
-}
-body.dark-mode .fill {
-  background-color: #aed581;
-}
-.fill::after {
-  content: attr(data-percent);
+  margin: 0.
