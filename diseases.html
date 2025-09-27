@@ -79,7 +79,7 @@
       const textColor = isDark ? '#fff' : '#333';
 
       // ✅ تعديل المسار الصحيح لملف البيانات
-      fetch('data.json')
+      fetch('data/data.json')
         .then(res => res.json())
         .then(data => {
           const ctx = document.getElementById('diseasesChart').getContext('2d');
