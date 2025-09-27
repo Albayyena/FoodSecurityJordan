@@ -131,7 +131,8 @@
       const isDark = body.classList.contains('dark-mode');
       const textColor = isDark ? '#fff' : '#333';
 
-      fetch('data.json') // ✅ تم تعديل المسار هنا
+      // ✅ تعديل المسار الصحيح لملف البيانات
+      fetch('data/data.json')
         .then(res => res.json())
         .then(data => {
           const a = data.agriculture;
