@@ -24,6 +24,12 @@ body[data-page="plants"] {
 body[data-page="diseases"] {
   background: linear-gradient(to bottom, #fbe9e7, #ffccbc);
 }
+body[data-page="crops"] {
+  background: linear-gradient(to bottom, #e8f5e9, #c5e1a5);
+}
+body[data-page="agriculture"] {
+  background: linear-gradient(to bottom, #f0f4c3, #dcedc8);
+}
 
 /* زر الوضع الليلي/النهاري */
 #modeToggle {
@@ -52,7 +58,7 @@ body[data-page="diseases"] {
   }
 }
 
-/* ✅ شريط تقدم التمرير */
+/* شريط تقدم التمرير */
 #scrollProgress {
   position: fixed;
   top: 0;
@@ -266,95 +272,4 @@ body.dark-mode th, body.dark-mode td {
   background-color: #81c784;
   height: 100%;
   width: 0;
-  transition: width 1s ease;
-}
-.fill.filled {
-  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-}
-body.dark-mode .progress {
-  background-color: #37474f;
-}
-body.dark-mode .fill {
-  background-color: #aed581;
-}
-
-/* ✅ شاشة البداية الإبداعية */
-/* ✅ شاشة البداية الإبداعية */
-#splashScreen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, #c5e1a5 0%, #81c784 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  z-index: 99999;
-  overflow: hidden;
-}
-
-/* صندوق الشعار */
-.logo-box {
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 2px solid #ffffff55;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 0 20px #66bb6a;
-  text-align: center;
-}
-
-/* بذرة متحركة */
-.seed-icon {
-  width: 40px;
-  height: 40px;
-  background-color: #5d4037;
-  border-radius: 50%;
-  animation: pulseSeed 1.5s infinite;
-  margin-bottom: 1rem;
-}
-
-/* الشعار والنص */
-.splash-title {
-  font-size: 3rem;
-  color: #ffffff;
-  font-weight: bold;
-  animation: flash 2s ease-in-out infinite;
-  text-shadow: 0 0 10px #66bb6a;
-}
-
-.splash-text {
-  margin-top: 1rem;
-  font-size: 1.3rem;
-  color: #ffffff;
-  font-weight: 500;
-  line-height: 1.6;
-  animation: fadeInText 2s ease forwards;
-  animation-delay: 1s;
-  opacity: 0;
-}
-
-/* أنيميشن */
-@keyframes pulseSeed {
-  0% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.2); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.8; }
-}
-
-@keyframes flash {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
-}
-
-@keyframes fadeInText {
-  to { opacity: 1; }
-}
-
-.fade-out {
-  animation: fadeOut 1s ease forwards;
-}
-
-@keyframes fadeOut {
-  to { opacity: 0; visibility: hidden; }
-}
+  transition
