@@ -30,6 +30,12 @@ body[data-page="crops"] {
 body[data-page="agriculture"] {
   background: linear-gradient(to bottom, #f0f4c3, #dcedc8);
 }
+body[data-page="vertical"] {
+  background: linear-gradient(to bottom, #e8f5e9, #c5e1a5);
+}
+body[data-page="index"] {
+  background: linear-gradient(to bottom, #f1f8e9, #dcedc8);
+}
 
 /* زر الوضع الليلي/النهاري */
 #modeToggle {
@@ -262,8 +268,4 @@ body.dark-mode th, body.dark-mode td {
 
 /* النسب المئوية */
 .progress {
-  background-color: #e0e0e0;
-  border-radius: 6px;
-  overflow: hidden;
-  height: 20px;
-  margin: 0.
+  background-color: #e0e0
