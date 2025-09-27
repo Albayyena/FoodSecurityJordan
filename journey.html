@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>رحلة البذرة</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app/app.js" defer></script>
+  <script src="app/script.js" defer></script>
+</head>
+<body class="light-mode" data-page="journey">
+  <canvas id="bgCanvas"></canvas>
+  <button id="modeToggle">🌙 الوضع الليلي</button>
+  <div id="scrollProgress"></div>
+
+  <header>
+    <h1>رحلة البذرة</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="agriculture.html">أنواع الزراعة</a></li>
+        <li><a href="irrigation.html">أنظمة الري</a></li>
+        <li><a href="crops.html">المحاصيل</a></li>
+        <li><a href="plants.html">النباتات</a></li>
+        <li><a href="vertical.html">الزراعة العمودية</a></li>
+        <li><a href="diseases.html">أمراض النباتات</a></li>
+        <li><a href="journey.html" class="active">رحلة البذرة</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card intro">
+      <h2>من بذرة إلى حياة…</h2>
+      <p>
+        تبدأ الرحلة في عمق التربة، حيث تنام البذرة في ظلام دافئ،  
+        ثم تستيقظ على قطرة ماء، وتبدأ في إرسال جذورها نحو الأعماق،  
+        تنمو ساقها، وتفتح أوراقها، وتزهر، ثم تُثمر…  
+        كل مرحلة هي نبضة حياة، وكل نبضة هي وعد بالغذاء.
+      </p>
+      <button id="startJourney">🚀 ابدأ الرحلة</button>
+    </section>
+
+    <section class="card-grid" id="journeyStages">
+      <div class="card stage" data-stage="seed" style="--color:#795548">
+        <h3>🌰 البذرة</h3>
+        <p>تُزرع في التربة وتبدأ في امتصاص الماء والحرارة.</p>
+      </div>
+      <div class="card stage" data-stage="root" style="--color:#4e342e">
+        <h3>🌱 الجذر</h3>
+        <p>ينمو نحو الأسفل بحثًا عن الماء والمعادن.</p>
+      </div>
+      <div class="card stage" data-stage="stem" style="--color:#2e7d32">
+        <h3>🌿 الساق</h3>
+        <p>يرتفع نحو الضوء، حاملاً الأوراق والزهور.</p>
+      </div>
+      <div class="card stage" data-stage="leaf" style="--color:#8bc34a">
+        <h3>🍃 الورقة</h3>
+        <p>تبدأ في التمثيل الضوئي، وتنتج الطاقة للنمو.</p>
+      </div>
+      <div class="card stage" data-stage="flower" style="--color:#ff9800">
+        <h3>🌸 الزهرة</h3>
+        <p>تُزهر وتستعد للتلقيح، بداية تكوين الثمرة.</p>
+      </div>
+      <div class="card stage" data-stage="fruit" style="--color:#ff5722">
+        <h3>🍎 الثمرة</h3>
+        <p>نهاية الرحلة، بداية الغذاء، واستمرار الحياة.</p>
+      </div>
+    </section>
+
+    <section class="card reflection">
+      <h2>💭 هل الري يسقي أكثر من التربة؟</h2>
+      <p>
+        تخيّل أن أنظمة الري لا تسقي النباتات فقط، بل تسقي الذكريات، المشاعر، وحتى الأفكار.  
+        هل ترى أن الزراعة يمكن أن تكون وسيلة للتعبير أو التوثيق؟  
+        شاركنا رأيك، فكل بذرة تحمل قصة، وربما قصتك أنت.
+      </p>
+
+      <form id="thoughtForm">
+        <textarea id="userThought" placeholder="اكتب فكرتك هنا..." rows="4"></textarea>
+        <button type="submit">📝 أرسل فكرتك</button>
+      </form>
+
+      <div id="thankYouMessage" style="display:none;">
+        <p>🌱 شكرًا لمشاركتك! فكرتك أصبحت جزءًا من ذاكرة الموقع.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 مشروع الأمن الغذائي في الأردن</p>
+    <a href="index.html" class="back-home">🏠 العودة للرئيسية</a>
+  </footer>
+</body>
+</html>
+

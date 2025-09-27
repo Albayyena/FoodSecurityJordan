@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أنواع الزراعة في الأردن</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app/app.js" defer></script>
+  <script src="app/script.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+  <div id="scrollProgress"></div>
+  <canvas id="bgCanvas"></canvas>
+  <button id="modeToggle">🌙 الوضع الليلي</button>
+
+  <header>
+    <h1>أنواع الزراعة في الأردن</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="agriculture.html" class="active">أنواع الزراعة</a></li>
+        <li><a href="irrigation.html">أنظمة الري</a></li>
+        <li><a href="crops.html">المحاصيل</a></li>
+        <li><a href="plants.html">النباتات</a></li>
+        <li><a href="vertical.html">الزراعة العمودية</a></li>
+        <li><a href="diseases.html">أمراض النباتات</a></li>
+        <li><a href="journey.html">رحلة البذرة</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>أنواع الزراعة</h2>
+      <p>
+        تتنوع أساليب الزراعة في الأردن لتشمل الزراعة التقليدية في الأغوار، والزراعة المائية في البيوت البلاستيكية، والزراعة العضوية في المناطق الجبلية، والزراعة العمودية في المدن.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>نسب انتشار الأنواع</h2>
+      <canvas id="agricultureChart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 مشروع الأمن الغذائي في الأردن</p>
+    <a href="index.html" class="back-home">🏠 العودة للرئيسية</a>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const body = document.body;
+      const toggleBtn = document.getElementById('modeToggle');
+      const savedMode = localStorage.getItem('mode') || 'light';
+      body.classList.add(savedMode + '-mode');
+      toggleBtn.textContent = savedMode === 'dark' ? '☀️ الوضع النهاري' : '🌙 الوضع الليلي';
+
+      toggleBtn.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        body.classList.toggle('light-mode');
+        const newMode = body.classList.contains('dark-mode') ? 'dark' : 'light';
+        localStorage.setItem('mode', newMode);
+        toggleBtn.textContent = newMode === 'dark' ? '☀️ الوضع النهاري' : '🌙 الوضع الليلي';
+        drawSkySymbol();
+      });
+
+      const canvas = document.getElementById('bgCanvas');
+      const ctx = canvas.getContext('2d');
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      function drawSkySymbol() {
+        resizeCanvas();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const mode = body.classList.contains('dark-mode') ? 'night' : 'day';
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        if (mode === 'day') {
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, 30, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffeb3b';
+          ctx.fill();
+          for (let i = 0; i < 8; i++) {
+            const angle = (Math.PI * 2 / 8) * i;
+            const x = centerX + Math.cos(angle) * 45;
+            const y = centerY + Math.sin(angle) * 45;
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff176';
+            ctx.fill();
+          }
+        } else {
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, 30, 0, Math.PI * 2);
+          ctx.fillStyle = '#b0bec5';
+          ctx.fill();
+          ctx.beginPath();
+          ctx.arc(centerX + 10, centerY, 30, 0, Math.PI * 2);
+          ctx.fillStyle = '#263238';
+          ctx.fill();
+          for (let i = 0; i < 25; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            ctx.beginPath();
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+          }
+        }
+      }
+      window.addEventListener('resize', drawSkySymbol);
+      drawSkySymbol();
+
+      const scrollBar = document.getElementById('scrollProgress');
+      function updateScrollBar() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        scrollBar.style.width = scrollPercent + '%';
+      }
+      window.addEventListener('scroll', updateScrollBar);
+      window.addEventListener('resize', updateScrollBar);
+      updateScrollBar();
+
+      const isDark = body.classList.contains('dark-mode');
+      const textColor = isDark ? '#fff' : '#333';
+
+      fetch('data/data.json')
+        .then(res => res.json())
+        .then(data => {
+          const a = data.agriculture;
+          const ctx = document.getElementById('agricultureChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: ['تقليدية', 'مائية', 'عضوية', 'عمودية'],
+              datasets: [{
+                data: [a.traditional, a.hydroponic, a.organic, a.vertical],
+                backgroundColor: ['#81c784', '#4db6ac', '#ffb74d', '#aed581'],
+                borderColor: '#fff',
+                borderWidth: 2
+              }]
+            },
+            options: {
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'نسب أنواع الزراعة في الأردن',
+                  font: { size: 18, weight: 'bold' },
+                  color: textColor
+                },
+                legend: {
+                  labels: { color: textColor }
+                }
+              }
+            }
+          });
+        })
+        .catch(err => console.error('❌ خطأ في تحميل البيانات:', err));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أنظمة الري في الأردن</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app/app.js" defer></script>
+  <script src="app/script.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+  <canvas id="bgCanvas"></canvas>
+  <button id="modeToggle">🌙 الوضع الليلي</button>
+  <div id="scrollProgress"></div>
+
+  <header>
+    <h1>أنظمة الري في الأردن</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="agriculture.html">أنواع الزراعة</a></li>
+        <li><a href="irrigation.html" class="active">أنظمة الري</a></li>
+        <li><a href="crops.html">المحاصيل</a></li>
+        <li><a href="plants.html">النباتات</a></li>
+        <li><a href="vertical.html">الزراعة العمودية</a></li>
+        <li><a href="diseases.html">أمراض النباتات</a></li>
+        <li><a href="journey.html">رحلة البذرة</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card intro">
+      <h2>💧 الري: شريان الحياة الزراعية</h2>
+      <p>
+        في بلد يعاني من شح المياه، تصبح أنظمة الري في الأردن أكثر من مجرد تقنية، بل استراتيجية بقاء.  
+        من الأغوار إلى المرتفعات، تتنوع الأساليب حسب البيئة والاحتياج، وكل نظام له دوره في الحفاظ على الإنتاج واستدامته.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>📋 أنواع أنظمة الري</h2>
+      <ul>
+        <li><strong>الري بالتنقيط:</strong> يوفر الماء مباشرة للجذور، ويُستخدم بكثرة في الأغوار.</li>
+        <li><strong>الري بالغمر:</strong> طريقة تقليدية تعتمد على غمر الأرض بالماء، لكنها تستهلك كميات كبيرة.</li>
+        <li><strong>الري بالرش:</strong> يُستخدم في البيوت البلاستيكية ويشبه المطر الصناعي.</li>
+        <li><strong>الري الذكي:</strong> يعتمد على حساسات وتكنولوجيا لتحديد الحاجة الفعلية للنبات.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>📊 نسب استخدام الأنظمة</h2>
+      <canvas id="irrigationChart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 مشروع الأمن الغذائي في الأردن</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const scrollBar = document.getElementById('scrollProgress');
+      function updateScrollBar() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        scrollBar.style.width = scrollPercent + '%';
+      }
+      window.addEventListener('scroll', updateScrollBar);
+      window.addEventListener('resize', updateScrollBar);
+      updateScrollBar();
+
+      const isDark = document.body.classList.contains('dark-mode');
+      const textColor = isDark ? '#fff' : '#333';
+
+      fetch('data/data.json')
+        .then(res => res.json())
+        .then(data => {
+          const ctx = document.getElementById('irrigationChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: ['تنقيط', 'غمر', 'رش', 'ذكي'],
+              datasets: [{
+                label: 'نسبة الاستخدام',
+                data: [data.irrigation.drip, data.irrigation.flood, data.irrigation.sprinkler, data.irrigation.smart],
+                backgroundColor: ['#81c784', '#4db6ac', '#ffb74d', '#aed581']
+              }]
+            },
+            options: {
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'نسب استخدام أنظمة الري في الأردن',
+                  font: { size: 18, weight: 'bold' },
+                  color: textColor
+                },
+                legend: {
+                  labels: { color: textColor }
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: { color: textColor }
+                },
+                x: {
+                  ticks: { color: textColor }
+                }
+              }
+            }
+          });
+        })
+        .catch(err => console.error('خطأ في تحميل بيانات الري:', err));
+    });
+  </script>
+</body>
+</html>

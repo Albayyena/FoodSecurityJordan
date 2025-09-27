@@ -1,0 +1,92 @@
+{
+  "overview": {
+    "traditional": 40,
+    "vertical": 25,
+    "medicinal": 20,
+    "rare": 15
+  },
+  "agriculture": {
+    "traditional": 45,
+    "hydroponic": 20,
+    "organic": 15,
+    "vertical": 20
+  },
+  "irrigation": {
+    "drip": 50,
+    "flood": 30,
+    "sprinkler": 15,
+    "smart": 5
+  },
+  "crops": [
+    {
+      "id": 1,
+      "name": "قمح",
+      "region": "إربد",
+      "typeIndex": 1,
+      "area": 1200,
+      "importance": 20,
+      "color": "#81c784",
+      "description": "محصول أساسي يستخدم في صناعة الخبز ويزرع بكثافة في شمال الأردن."
+    },
+    {
+      "id": 2,
+      "name": "شعير",
+      "region": "المفرق",
+      "typeIndex": 2,
+      "area": 800,
+      "importance": 15,
+      "color": "#4db6ac",
+      "description": "يُستخدم كعلف للحيوانات ويزرع في المناطق الجافة."
+    },
+    {
+      "id": 3,
+      "name": "بطاطا",
+      "region": "الأغوار",
+      "typeIndex": 3,
+      "area": 600,
+      "importance": 10,
+      "color": "#ffb74d",
+      "description": "محصول غذائي مهم يُزرع في البيوت البلاستيكية ويُستهلك محليًا."
+    }
+  ],
+  "plants": [
+    {
+      "id": 1,
+      "name": "بابونج",
+      "usage": "طبي",
+      "description": "نبات مهدئ يُستخدم في علاج اضطرابات النوم والهضم."
+    },
+    {
+      "id": 2,
+      "name": "نعناع",
+      "usage": "عطري",
+      "description": "نبات منعش يُستخدم في المشروبات والعطور وله خصائص مضادة للبكتيريا."
+    },
+    {
+      "id": 3,
+      "name": "ريحان",
+      "usage": "زينة",
+      "description": "نبات عطري يُستخدم للزينة والطهي، ويزرع في الحدائق المنزلية."
+    },
+    {
+      "id": 4,
+      "name": "زعتر بري",
+      "usage": "برّي",
+      "description": "نبات جبلي يُستخدم في الطب الشعبي ويُعتبر من النباتات النادرة."
+    }
+  ],
+  "diseases": {
+    "powdery": 30,
+    "blight": 25,
+    "wilt": 20,
+    "spot": 15,
+    "rot": 10
+  },
+  "vertical": {
+    "units": 12,
+    "growthRate": 65,
+    "urbanCoverage": 40
+  }
+}
+
+

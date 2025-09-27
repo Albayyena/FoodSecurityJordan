@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>أمراض النباتات</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app/app.js" defer></script>
+  <script src="app/script.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+  <canvas id="bgCanvas"></canvas>
+  <button id="modeToggle">🌙 الوضع الليلي</button>
+  <div id="scrollProgress"></div>
+
+  <header>
+    <h1>أمراض النباتات في الأردن</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="agriculture.html">أنواع الزراعة</a></li>
+        <li><a href="irrigation.html">أنظمة الري</a></li>
+        <li><a href="crops.html">المحاصيل</a></li>
+        <li><a href="plants.html">النباتات</a></li>
+        <li><a href="vertical.html">الزراعة العمودية</a></li>
+        <li><a href="diseases.html" class="active">أمراض النباتات</a></li>
+        <li><a href="journey.html">رحلة البذرة</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card intro">
+      <h2>🦠 الأمراض النباتية: العدو الصامت للإنتاج</h2>
+      <p>
+        في الأردن، تواجه النباتات تحديات صحية تؤثر بشكل مباشر على كمية وجودة الإنتاج.  
+        من البياض الدقيقي الذي يهاجم الأوراق، إلى الذبول الذي يقطع الحياة عن الجذور،  
+        كل مرض له أثره، وكل مزارع يحتاج أن يعرف كيف يواجهه.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>📋 أبرز الأمراض النباتية</h2>
+      <ul>
+        <li><strong>البياض الدقيقي:</strong> يظهر كغشاء أبيض على الأوراق ويضعف عملية البناء الضوئي.</li>
+        <li><strong>اللفحة:</strong> تسبب بقعًا ميتة على الأوراق وتنتشر بسرعة في الرطوبة العالية.</li>
+        <li><strong>الذبول الفيوزاريومي:</strong> يمنع وصول الماء للنبات ويؤدي إلى موته التدريجي.</li>
+        <li><strong>التبقع البني:</strong> يترك بقعًا داكنة تقلل من جودة المحصول.</li>
+        <li><strong>العفن:</strong> يهاجم الجذور والثمار ويؤدي إلى تلف شامل.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>📊 تأثير الأمراض على الإنتاج</h2>
+      <canvas id="diseasesChart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 مشروع الأمن الغذائي في الأردن</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const scrollBar = document.getElementById('scrollProgress');
+      function updateScrollBar() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        scrollBar.style.width = scrollPercent + '%';
+      }
+      window.addEventListener('scroll', updateScrollBar);
+      window.addEventListener('resize', updateScrollBar);
+      updateScrollBar();
+
+      const isDark = document.body.classList.contains('dark-mode');
+      const textColor = isDark ? '#fff' : '#333';
+
+      fetch('data/data.json')
+        .then(res => res.json())
+        .then(data => {
+          const ctx = document.getElementById('diseasesChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'radar',
+            data: {
+              labels: ['بياض دقيقي', 'لفحة', 'ذبول', 'تبقع', 'عفن'],
+              datasets: [{
+                label: 'نسبة التأثير على الإنتاج',
+                data: [data.diseases.powdery, data.diseases.blight, data.diseases.wilt, data.diseases.spot, data.diseases.rot],
+                backgroundColor: 'rgba(129,199,132,0.2)',
+                borderColor: '#81c784',
+                borderWidth: 2,
+                pointBackgroundColor: '#fff'
+              }]
+            },
+            options: {
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'تأثير الأمراض النباتية على الإنتاج',
+                  font: { size: 18, weight: 'bold' },
+                  color: textColor
+                },
+                legend: {
+                  labels: { color: textColor }
+                }
+              },
+              scales: {
+                r: {
+                  angleLines: { color: textColor },
+                  grid: { color: textColor },
+                  pointLabels: { color: textColor },
+                  ticks: { color: textColor, beginAtZero: true }
+                }
+              }
+            }
+          });
+        })
+        .catch(err => console.error('خطأ في تحميل بيانات الأمراض:', err));
+    });
+  </script>
+</body>
+</html>

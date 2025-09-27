@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الزراعة العمودية في الأردن</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app/app.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+  <div id="scrollProgress"></div>
+  <canvas id="bgCanvas"></canvas>
+  <button id="modeToggle">🌙 الوضع الليلي</button>
+
+  <header>
+    <h1>الزراعة العمودية في الأردن</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="agriculture.html">أنواع الزراعة</a></li>
+        <li><a href="irrigation.html">أنظمة الري</a></li>
+        <li><a href="crops.html">المحاصيل</a></li>
+        <li><a href="plants.html">النباتات</a></li>
+        <li><a href="vertical.html" class="active">الزراعة العمودية</a></li>
+        <li><a href="diseases.html">أمراض النباتات</a></li>
+        <li><a href="journey.html">رحلة البذرة</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card intro">
+      <h2>🏙️ الزراعة العمودية: زراعة المدن الذكية</h2>
+      <p>
+        في ظل التوسع العمراني وشح الأراضي الزراعية، ظهرت الزراعة العمودية كحل مبتكر لإنتاج الغذاء داخل المدن.  
+        تعتمد هذه التقنية على زراعة النباتات في طبقات رأسية باستخدام أنظمة ري ذكية وإضاءة صناعية، مما يقلل من استهلاك الموارد ويزيد من الإنتاجية.
+      </p>
+    </section>
+
+    <section class="card highlight">
+      <h3>🍓 نموذج تطبيقي: زراعة الفراولة في جامعة الإسراء</h3>
+      <p>
+        في تجربة تعليمية رائدة، نفذت جامعة الإسراء مشروعًا لزراعة الفراولة باستخدام وحدات عمودية داخل الحرم الجامعي.  
+        اعتمد النموذج على الشتلات المبردة، والري بالتنقيط، وتغطية المصاطب بالبلاستيك، مما ساهم في تقليل الأمراض النباتية وزيادة الإنتاج.  
+        هذا النموذج يُظهر كيف يمكن للمؤسسات التعليمية أن تتحول إلى مراكز إنتاج غذائي مستدام داخل المدن.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>📊 مؤشرات الزراعة العمودية</h2>
+      <p>
+        يعرض الرسم البياني التالي ثلاثة مؤشرات رئيسية: عدد الوحدات المستخدمة، نسبة النمو السنوية، ونسبة التغطية الحضرية.  
+        هذه المؤشرات تعكس مدى انتشار الزراعة العمودية في الأردن، خاصة في المناطق الحضرية.
+      </p>
+      <canvas id="verticalChart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 مشروع الأمن الغذائي في الأردن</p>
+    <a href="index.html" class="back-home">🏠 العودة للرئيسية</a>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const isDark = document.body.classList.contains('dark-mode');
+      const textColor = isDark ? '#fff' : '#333';
+
+      fetch('data/data.json')
+        .then(res => res.json())
+        .then(data => {
+          const v = data.vertical;
+          const ctx = document.getElementById('verticalChart').getContext('2d');
+
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: ['عدد الوحدات', 'نسبة النمو', 'التغطية الحضرية'],
+              datasets: [{
+                label: 'الزراعة العمودية في الأردن',
+                data: [v.units, v.growthRate, v.urbanCoverage],
+                backgroundColor: 'rgba(129,199,132,0.2)',
+                borderColor: '#81c784',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3
+              }]
+            },
+            options: {
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'مؤشرات الزراعة العمودية',
+                  font: { size: 18, weight: 'bold' },
+                  color: textColor
+                },
+                legend: {
+                  labels: { color: textColor }
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  ticks: { color: textColor },
+                  title: { display: true, text: 'القيمة', color: textColor }
+                },
+                x: {
+                  ticks: { color: textColor }
+                }
+              }
+            }
+          });
+        })
+        .catch(err => console.error('❌ خطأ في تحميل بيانات الزراعة العمودية:', err));
+    });
+  </script>
+</body>
+</html>
+

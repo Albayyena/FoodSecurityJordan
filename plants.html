@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>النباتات الطبية والعطرية</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app/app.js" defer></script>
+  <script src="app/script.js" defer></script>
+  <script src="app/search.js" defer></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="light-mode">
+  <canvas id="bgCanvas"></canvas>
+  <button id="modeToggle">🌙 الوضع الليلي</button>
+  <div id="scrollProgress"></div>
+
+  <header>
+    <h1>النباتات الطبية والعطرية</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="agriculture.html">أنواع الزراعة</a></li>
+        <li><a href="irrigation.html">أنظمة الري</a></li>
+        <li><a href="crops.html">المحاصيل</a></li>
+        <li><a href="plants.html" class="active">النباتات</a></li>
+        <li><a href="vertical.html">الزراعة العمودية</a></li>
+        <li><a href="diseases.html">أمراض النباتات</a></li>
+        <li><a href="journey.html">رحلة البذرة</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card intro">
+      <h2>🌿 النباتات: بين الشفاء والعطر والجمال</h2>
+      <p>
+        في الأردن، تنمو نباتات لا تُستخدم فقط للزينة، بل تحمل في أوراقها علاجًا، وفي زهورها عطرًا، وفي جذورها أسرارًا برية.  
+        هذه الصفحة تستعرض أنواع النباتات حسب استخداماتها، وتتيح لك البحث والتعرف على خصائصها.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>🔍 بحث النباتات</h2>
+      <input type="text" id="plantSearch" placeholder="ابحث عن نبات..." />
+      <ul id="plantList" class="search-results"></ul>
+    </section>
+
+    <section class="card">
+      <h2>📊 أنواع النباتات في الأردن</h2>
+      <canvas id="plantsChart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 مشروع الأمن الغذائي في الأردن</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const scrollBar = document.getElementById('scrollProgress');
+      function updateScrollBar() {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        scrollBar.style.width = scrollPercent + '%';
+      }
+      window.addEventListener('scroll', updateScrollBar);
+      window.addEventListener('resize', updateScrollBar);
+      updateScrollBar();
+
+      const isDark = document.body.classList.contains('dark-mode');
+      const textColor = isDark ? '#fff' : '#333';
+
+      fetch('data/data.json')
+        .then(res => res.json())
+        .then(data => {
+          const plants = data.plants;
+          const counts = {
+            medicinal: 0,
+            aromatic: 0,
+            decorative: 0,
+            wild: 0
+          };
+
+          plants.forEach(p => {
+            if (p.usage === 'طبي') counts.medicinal++;
+            else if (p.usage === 'عطري') counts.aromatic++;
+            else if (p.usage === 'زينة') counts.decorative++;
+            else if (p.usage === 'برّي') counts.wild++;
+          });
+
+          const ctx = document.getElementById('plantsChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'pie',
+            data: {
+              labels: ['طبية', 'عطرية', 'زينة', 'برية'],
+              datasets: [{
+                data: [counts.medicinal, counts.aromatic, counts.decorative, counts.wild],
+                backgroundColor: ['#81c784', '#4db6ac', '#ffb74d', '#aed581'],
+                borderColor: '#fff',
+                borderWidth: 2
+              }]
+            },
+            options: {
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'أنواع النباتات في الأردن',
+                  font: { size: 18, weight: 'bold' },
+                  color: textColor
+                },
+                legend: {
+                  labels: { color: textColor }
+                }
+              }
+            }
+          });
+
+          // البحث والتصفية
+          const list = document.getElementById('plantList');
+          const input = document.getElementById('plantSearch');
+
+          function renderList(filter = '') {
+            list.innerHTML = '';
+            plants
+              .filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
+              .forEach(p => {
+                const li = document.createElement('li');
+                li.textContent = `🌿 ${p.name} — ${p.usage}`;
+                list.appendChild(li);
+              });
+          }
+
+          input.addEventListener('input', () => renderList(input.value));
+          renderList();
+        })
+        .catch(err => console.error('خطأ في تحميل بيانات النباتات:', err));
+    });
+  </script>
+</body>
+</html>
