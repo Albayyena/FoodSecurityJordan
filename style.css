@@ -17,7 +17,7 @@ body.dark-mode {
   color: #f5f5f5;
 }
 
-/* تدرج لوني حسب نوع الصفحة */
+/* خلفيات حسب نوع الصفحة */
 body[data-page="plants"] {
   background: linear-gradient(to bottom, #f1f8e9, #c8e6c9);
 }
@@ -267,5 +267,5 @@ body.dark-mode th, body.dark-mode td {
 }
 
 /* النسب المئوية */
-.progress {
-  background-color: #e0e0
+.fill {
+  position:
