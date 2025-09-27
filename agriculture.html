@@ -10,7 +10,7 @@
   <script src="app/script.js" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="light-mode">
+<body class="light-mode" data-page="agriculture">
   <div id="scrollProgress"></div>
   <canvas id="bgCanvas"></canvas>
   <button id="modeToggle">🌙 الوضع الليلي</button>
@@ -32,15 +32,16 @@
   </header>
 
   <main>
-    <section class="card">
-      <h2>أنواع الزراعة</h2>
+    <section class="card intro">
+      <h2>🌾 الزراعة: بين التقليد والابتكار</h2>
       <p>
-        تتنوع أساليب الزراعة في الأردن لتشمل الزراعة التقليدية في الأغوار، والزراعة المائية في البيوت البلاستيكية، والزراعة العضوية في المناطق الجبلية، والزراعة العمودية في المدن.
+        تتنوع أساليب الزراعة في الأردن لتشمل الزراعة التقليدية في الأغوار، والزراعة المائية في البيوت البلاستيكية، والزراعة العضوية في المناطق الجبلية، والزراعة العمودية في المدن.  
+        هذه الصفحة تستعرض نسب انتشار هذه الأنواع، وتقدم تصورًا بصريًا لتوزيعها.
       </p>
     </section>
 
     <section class="card">
-      <h2>نسب انتشار الأنواع</h2>
+      <h2>📊 نسب انتشار الأنواع</h2>
       <canvas id="agricultureChart"></canvas>
     </section>
   </main>
@@ -130,7 +131,7 @@
       const isDark = body.classList.contains('dark-mode');
       const textColor = isDark ? '#fff' : '#333';
 
-      fetch('data/data.json')
+      fetch('data.json') // ✅ تم تعديل المسار هنا
         .then(res => res.json())
         .then(data => {
           const a = data.agriculture;
