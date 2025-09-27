@@ -11,7 +11,7 @@
   <script src="app/search.js" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="light-mode">
+<body class="light-mode" data-page="crops">
   <canvas id="bgCanvas"></canvas>
   <button id="modeToggle">🌙 الوضع الليلي</button>
   <div id="scrollProgress"></div>
@@ -74,8 +74,8 @@
       const isDark = document.body.classList.contains('dark-mode');
       const textColor = isDark ? '#fff' : '#333';
 
-      // رسم المخطط
-      fetch('data/data.json')
+      // ✅ تعديل مسار ملف البيانات
+      fetch('data.json')
         .then(res => res.json())
         .then(data => {
           const crops = data.crops;
@@ -137,3 +137,4 @@
   </script>
 </body>
 </html>
+
