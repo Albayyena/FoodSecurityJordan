@@ -1,140 +1,90 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>المحاصيل في الأردن</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="app/app.js" defer></script>
-  <script src="app/script.js" defer></script>
-  <script src="app/search.js" defer></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="light-mode" data-page="crops">
-  <canvas id="bgCanvas"></canvas>
-  <button id="modeToggle">🌙 الوضع الليلي</button>
-  <div id="scrollProgress"></div>
-
-  <header>
-    <h1>المحاصيل في الأردن</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">الرئيسية</a></li>
-        <li><a href="agriculture.html">أنواع الزراعة</a></li>
-        <li><a href="irrigation.html">أنظمة الري</a></li>
-        <li><a href="crops.html" class="active">المحاصيل</a></li>
-        <li><a href="plants.html">النباتات</a></li>
-        <li><a href="vertical.html">الزراعة العمودية</a></li>
-        <li><a href="diseases.html">أمراض النباتات</a></li>
-        <li><a href="journey.html">رحلة البذرة</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main>
-    <section class="card intro">
-      <h2>🌽 المحاصيل: قلب الأمن الغذائي</h2>
-      <p>
-        المحاصيل هي العمود الفقري للزراعة في الأردن.  
-        في هذه الصفحة، يمكنك استكشاف أنواع المحاصيل، توزيعها حسب المناطق، وأهميتها في تحقيق الاكتفاء الغذائي.  
-        استخدم البحث لتصفية المحاصيل حسب الاسم أو المنطقة.
-      </p>
-    </section>
-
-    <section class="card">
-      <h2>🔍 بحث المحاصيل</h2>
-      <input type="text" id="cropSearch" placeholder="ابحث عن محصول..." />
-      <ul id="cropList" class="search-results"></ul>
-    </section>
-
-    <section class="card">
-      <h2>📊 توزيع المحاصيل</h2>
-      <canvas id="cropsChart"></canvas>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 مشروع الأمن الغذائي في الأردن</p>
-  </footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const scrollBar = document.getElementById('scrollProgress');
-      function updateScrollBar() {
-        const scrollTop = window.scrollY;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-        scrollBar.style.width = scrollPercent + '%';
-      }
-      window.addEventListener('scroll', updateScrollBar);
-      window.addEventListener('resize', updateScrollBar);
-      updateScrollBar();
-
-      const isDark = document.body.classList.contains('dark-mode');
-      const textColor = isDark ? '#fff' : '#333';
-
-      // ✅ تعديل المسار الصحيح لملف البيانات
-      fetch('data.json')
-        .then(res => res.json())
-        .then(data => {
-          const crops = data.crops;
-          const ctx = document.getElementById('cropsChart').getContext('2d');
-          new Chart(ctx, {
-            type: 'bubble',
-            data: {
-              datasets: crops.map(crop => ({
-                label: crop.name,
-                data: [{ x: crop.typeIndex, y: crop.area, r: crop.importance }],
-                backgroundColor: crop.color || '#81c784'
-              }))
-            },
-            options: {
-              plugins: {
-                title: {
-                  display: true,
-                  text: 'توزيع المحاصيل حسب النوع والمساحة',
-                  font: { size: 18, weight: 'bold' },
-                  color: textColor
-                },
-                legend: {
-                  labels: { color: textColor }
-                }
-              },
-              scales: {
-                x: {
-                  title: { display: true, text: 'نوع المحصول', color: textColor },
-                  ticks: { color: textColor }
-                },
-                y: {
-                  title: { display: true, text: 'المساحة المزروعة (هكتار)', color: textColor },
-                  ticks: { color: textColor }
-                }
-              }
-            }
-          });
-
-          // البحث والتصفية
-          const list = document.getElementById('cropList');
-          const input = document.getElementById('cropSearch');
-
-          function renderList(filter = '') {
-            list.innerHTML = '';
-            crops
-              .filter(c => c.name.toLowerCase().includes(filter.toLowerCase()))
-              .forEach(c => {
-                const li = document.createElement('li');
-                li.textContent = `🌿 ${c.name} — ${c.region}`;
-                list.appendChild(li);
-              });
-          }
-
-          input.addEventListener('input', () => renderList(input.value));
-          renderList();
-        })
-        .catch(err => console.error('خطأ في تحميل بيانات المحاصيل:', err));
-    });
-  </script>
-</body>
-</html>
-
+{
+  "overview": {
+    "traditional": 40,
+    "vertical": 25,
+    "medicinal": 20,
+    "rare": 15
+  },
+  "agriculture": {
+    "traditional": 45,
+    "hydroponic": 20,
+    "organic": 15,
+    "vertical": 20
+  },
+  "irrigation": {
+    "drip": 50,
+    "flood": 30,
+    "sprinkler": 15,
+    "smart": 5
+  },
+  "crops": [
+    {
+      "id": 1,
+      "name": "قمح",
+      "region": "إربد",
+      "typeIndex": 1,
+      "area": 1200,
+      "importance": 20,
+      "color": "#81c784",
+      "description": "محصول أساسي يستخدم في صناعة الخبز ويزرع بكثافة في شمال الأردن."
+    },
+    {
+      "id": 2,
+      "name": "شعير",
+      "region": "المفرق",
+      "typeIndex": 2,
+      "area": 800,
+      "importance": 15,
+      "color": "#4db6ac",
+      "description": "يُستخدم كعلف للحيوانات ويزرع في المناطق الجافة."
+    },
+    {
+      "id": 3,
+      "name": "بطاطا",
+      "region": "الأغوار",
+      "typeIndex": 3,
+      "area": 600,
+      "importance": 10,
+      "color": "#ffb74d",
+      "description": "محصول غذائي مهم يُزرع في البيوت البلاستيكية ويُستهلك محليًا."
+    }
+  ],
+  "plants": [
+    {
+      "id": 1,
+      "name": "بابونج",
+      "usage": "طبي",
+      "description": "نبات مهدئ يُستخدم في علاج اضطرابات النوم والهضم."
+    },
+    {
+      "id": 2,
+      "name": "نعناع",
+      "usage": "عطري",
+      "description": "نبات منعش يُستخدم في المشروبات والعطور وله خصائص مضادة للبكتيريا."
+    },
+    {
+      "id": 3,
+      "name": "ريحان",
+      "usage": "زينة",
+      "description": "نبات عطري يُستخدم للزينة والطهي، ويزرع في الحدائق المنزلية."
+    },
+    {
+      "id": 4,
+      "name": "زعتر بري",
+      "usage": "برّي",
+      "description": "نبات جبلي يُستخدم في الطب الشعبي ويُعتبر من النباتات النادرة."
+    }
+  ],
+  "diseases": {
+    "powdery": 30,
+    "blight": 25,
+    "wilt": 20,
+    "spot": 15,
+    "rot": 10
+  },
+  "vertical": {
+    "units": 12,
+    "growthRate": 65,
+    "urbanCoverage": 40
+  }
+}
