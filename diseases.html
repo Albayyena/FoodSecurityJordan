@@ -10,7 +10,7 @@
   <script src="app/script.js" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body class="light-mode">
+<body class="light-mode" data-page="diseases">
   <canvas id="bgCanvas"></canvas>
   <button id="modeToggle">🌙 الوضع الليلي</button>
   <div id="scrollProgress"></div>
@@ -78,7 +78,8 @@
       const isDark = document.body.classList.contains('dark-mode');
       const textColor = isDark ? '#fff' : '#333';
 
-      fetch('data/data.json')
+      // ✅ تعديل المسار الصحيح لملف البيانات
+      fetch('data.json')
         .then(res => res.json())
         .then(data => {
           const ctx = document.getElementById('diseasesChart').getContext('2d');
@@ -88,7 +89,13 @@
               labels: ['بياض دقيقي', 'لفحة', 'ذبول', 'تبقع', 'عفن'],
               datasets: [{
                 label: 'نسبة التأثير على الإنتاج',
-                data: [data.diseases.powdery, data.diseases.blight, data.diseases.wilt, data.diseases.spot, data.diseases.rot],
+                data: [
+                  data.diseases.powdery,
+                  data.diseases.blight,
+                  data.diseases.wilt,
+                  data.diseases.spot,
+                  data.diseases.rot
+                ],
                 backgroundColor: 'rgba(129,199,132,0.2)',
                 borderColor: '#81c784',
                 borderWidth: 2,
