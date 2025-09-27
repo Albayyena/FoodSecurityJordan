@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const textColor = isDark ? '#fff' : '#333';
   const page = document.body.getAttribute('data-page');
 
-  fetch('data/data.json')
+  fetch('data.json') // ✅ تم تعديل المسار هنا
     .then(res => res.json())
     .then(data => {
       // 🟢 crops.html
