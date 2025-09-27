@@ -3,12 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>النباتات الطبية والعطرية</title>
+  <title>النباتات في الأردن</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="app.js" defer></script>
-  <script src="script.js" defer></script>
-  <script src="search.js" defer></script>
+  <script src="app/app.js" defer></script>
+  <script src="app/script.js" defer></script>
+  <script src="app/search.js" defer></script>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="light-mode" data-page="plants">
@@ -17,7 +16,7 @@
   <div id="scrollProgress"></div>
 
   <header>
-    <h1>النباتات الطبية والعطرية</h1>
+    <h1>النباتات في الأردن</h1>
     <nav>
       <ul>
         <li><a href="index.html">الرئيسية</a></li>
@@ -34,10 +33,10 @@
 
   <main>
     <section class="card intro">
-      <h2>🌿 النباتات: بين الشفاء والعطر والجمال</h2>
+      <h2>🌿 النباتات: تنوع بيئي وثقافي</h2>
       <p>
-        في الأردن، تنمو نباتات لا تُستخدم فقط للزينة، بل تحمل في أوراقها علاجًا، وفي زهورها عطرًا، وفي جذورها أسرارًا برية.  
-        هذه الصفحة تستعرض أنواع النباتات حسب استخداماتها، وتتيح لك البحث والتعرف على خصائصها.
+        النباتات في الأردن تعكس تنوعًا بيئيًا غنيًا، من النباتات الطبية إلى البرية والزينة.  
+        في هذه الصفحة، يمكنك استكشاف أنواع النباتات واستخداماتها، والبحث عن نبات معين حسب الاسم أو النوع.
       </p>
     </section>
 
@@ -48,7 +47,7 @@
     </section>
 
     <section class="card">
-      <h2>📊 أنواع النباتات في الأردن</h2>
+      <h2>📊 توزيع النباتات حسب الاستخدام</h2>
       <canvas id="plantsChart"></canvas>
     </section>
   </main>
@@ -57,6 +56,7 @@
     <p>© 2025 مشروع الأمن الغذائي في الأردن</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const scrollBar = document.getElementById('scrollProgress');
@@ -73,41 +73,31 @@
       const isDark = document.body.classList.contains('dark-mode');
       const textColor = isDark ? '#fff' : '#333';
 
-      fetch('data.json')
+      fetch('data/data.json')
         .then(res => res.json())
         .then(data => {
           const plants = data.plants;
-          const counts = {
-            medicinal: 0,
-            aromatic: 0,
-            decorative: 0,
-            wild: 0
-          };
+          const usageCounts = {};
 
           plants.forEach(p => {
-            if (p.usage === 'طبي') counts.medicinal++;
-            else if (p.usage === 'عطري') counts.aromatic++;
-            else if (p.usage === 'زينة') counts.decorative++;
-            else if (p.usage === 'برّي') counts.wild++;
+            usageCounts[p.usage] = (usageCounts[p.usage] || 0) + 1;
           });
 
           const ctx = document.getElementById('plantsChart').getContext('2d');
           new Chart(ctx, {
-            type: 'pie',
+            type: 'doughnut',
             data: {
-              labels: ['طبية', 'عطرية', 'زينة', 'برية'],
+              labels: Object.keys(usageCounts),
               datasets: [{
-                data: [counts.medicinal, counts.aromatic, counts.decorative, counts.wild],
-                backgroundColor: ['#81c784', '#4db6ac', '#ffb74d', '#aed581'],
-                borderColor: '#fff',
-                borderWidth: 2
+                data: Object.values(usageCounts),
+                backgroundColor: ['#81c784', '#4db6ac', '#ffb74d', '#9575cd']
               }]
             },
             options: {
               plugins: {
                 title: {
                   display: true,
-                  text: 'أنواع النباتات في الأردن',
+                  text: 'توزيع النباتات حسب الاستخدام',
                   font: { size: 18, weight: 'bold' },
                   color: textColor
                 },
@@ -127,7 +117,7 @@
               .filter(p => p.name.toLowerCase().includes(filter.toLowerCase()))
               .forEach(p => {
                 const li = document.createElement('li');
-                li.textContent = `🌿 ${p.name} — ${p.usage}`;
+                li.textContent = `🌿 ${p.name} — ${p.usage}: ${p.description}`;
                 list.appendChild(li);
               });
           }
@@ -140,5 +130,3 @@
   </script>
 </body>
 </html>
-
-
